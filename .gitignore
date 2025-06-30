@@ -166,5 +166,5 @@ cython_debug/
 
 **/tempCodeRunnerFile.py
 
-datasets/
+# datasets/
 trained-models/

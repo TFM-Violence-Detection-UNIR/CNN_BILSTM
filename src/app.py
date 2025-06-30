@@ -167,20 +167,26 @@ def handle_local_videos(dataset):
 def detect_violence(videos):
     results = []
     for video in videos:
-        data, vp = process_video(video)
+        data, _ = process_video(video)
         if data is None:
             continue
         probs = model.predict(data)[0]
         results.append({"path": video, "probs": probs})
 
-    # Mostrar solo la barra de probabilidad debajo de cada vídeo previamente renderizado
-    cols = st.columns(len(results))
-    for col, res in zip(cols, results):
+    # Mostrar cada vídeo junto a su barra de probabilidad, max. 3 por fila
+    for idx, res in enumerate(results):
+        if idx % 3 == 0:
+            cols = st.columns(3)
+        col = cols[idx % 3]
         with col:
-            prob = float(res['probs'][1])
-            percent = int(prob * 100)
-            st.write(f"**Probabilidad de violencia:** {prob:.2%}")
-            st.progress(percent)
+            # Convertir a MP4 si hace falta
+            ext = os.path.splitext(res["path"])[1].lower()
+            show_path = convert_to_mp4(res["path"]) if ext in [".avi", ".mov", ".wmv"] else res["path"]
+            st.video(show_path)
+            # Barra de probabilidad
+            prob = float(res["probs"][1])
+            st.markdown(f"**Probabilidad de violencia:** {prob:.2%}")
+            st.progress(int(prob * 100))
 
 # ----- Inicio de la aplicación -----
 st.title("Detector de Violencia en Vídeo")

@@ -145,7 +145,7 @@ def handle_uploaded_videos():
 
 # Manejo de vídeos locales según el dataset seleccionado
 def handle_local_videos(dataset):
-    base_dir = os.path.join(os.getcwd(), "datasets", dataset, "test")
+    base_dir = os.path.join("src", "datasets", dataset, "test")
     print(f"Buscando vídeos en: {base_dir}")
     options = {}
     # Recorrer subcarpetas (etiquetas) dinámicamente

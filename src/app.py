@@ -44,7 +44,7 @@ dataset_choice = st.sidebar.selectbox(
 )
 
 # Ruta al modelo seleccionado
-model_path = os.path.join("models", model_choice)
+model_path = os.path.join("src", "models", model_choice)
 
 @st.cache_resource
 def load_violence_model(path):
